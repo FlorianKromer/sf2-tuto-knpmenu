@@ -7,16 +7,19 @@
     <route id="menu_core_homepage" path="/">
         <default key="_controller">MenuCoreBundle:Default:index</default>
     </route>
-    <route id="menu_core_menu1" path="/about">
-        <default key="_controller">MenuCoreBundle:Default:about</default>
+    <route id="menu_core_menu1" path="/menu1">
+        <default key="_controller">MenuCoreBundle:Default:menu1</default>
     </route>
-    <route id="menu_core_menu2" path="/about">
-        <default key="_controller">MenuCoreBundle:Default:about</default>
+    <route id="menu_core_menu2" path="/menu2">
+        <default key="_controller">MenuCoreBundle:Default:menu2</default>
     </route>
-    <route id="menu_core_help" path="/help">
+    <route id="menu_core_help" path="/about/help">
         <default key="_controller">MenuCoreBundle:Default:help</default>
     </route>
     <route id="menu_core_about" path="/about">
         <default key="_controller">MenuCoreBundle:Default:about</default>
+    </route>
+    <route id="menu_core_search" path="/about/search">
+        <default key="_controller">MenuCoreBundle:Default:search</default>
     </route>
 </routes>

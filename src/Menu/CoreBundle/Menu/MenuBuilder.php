@@ -23,8 +23,9 @@ class MenuBuilder
         $menu->addChild('Home', array('route' => 'menu_core_homepage'));
         $menu->addChild('Menu1', array('route' => 'menu_core_menu1'));
         $menu->addChild('Menu2', array('route' => 'menu_core_menu1'));
-        $menu->addChild('About', array('route' => 'menu_core_about'));
-        $menu->addChild('Help', array('route' => 'menu_core_help'));
+        $about = $menu->addChild('About', array('route' => 'menu_core_about'));
+        $about->addChild('Help', array('route' => 'menu_core_help'));
+        $about->addChild('Search', array('route' => 'menu_core_search'));
 
         return $menu;
     }
