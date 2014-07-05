@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="menu_core_homepage" path="/">
+        <default key="_controller">MenuCoreBundle:Default:index</default>
+    </route>
+    <route id="menu_core_menu1" path="/about">
+        <default key="_controller">MenuCoreBundle:Default:about</default>
+    </route>
+    <route id="menu_core_menu2" path="/about">
+        <default key="_controller">MenuCoreBundle:Default:about</default>
+    </route>
+    <route id="menu_core_help" path="/help">
+        <default key="_controller">MenuCoreBundle:Default:help</default>
+    </route>
+    <route id="menu_core_about" path="/about">
+        <default key="_controller">MenuCoreBundle:Default:about</default>
+    </route>
+</routes>

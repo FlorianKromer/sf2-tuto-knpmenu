@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+	<services>
+		<service id="menu_core.menu_builder" class="Menu\CoreBundle\Menu\MenuBuilder">
+			<argument type="service" id="knp_menu.factory" />
+		</service>
+
+		<service id="menu_core.menu.primary" class="Knp\Menu\MenuItem"
+			factory-service="menu_core.menu_builder" factory-method="createPrimaryMenu" scope="request">
+			<argument type="service" id="request" />
+			<tag name="knp_menu.menu" alias="primary" />
+		</service>
+
+	</services>
+
+</container>

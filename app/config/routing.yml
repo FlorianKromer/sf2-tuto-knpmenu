@@ -1,0 +1,4 @@
+menu_core:
+    resource: "@MenuCoreBundle/Resources/config/routing.xml"
+    prefix:   /
+
