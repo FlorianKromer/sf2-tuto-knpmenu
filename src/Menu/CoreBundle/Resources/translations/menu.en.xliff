@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2014-07-06T19:14:31Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="fca1ede06a2c26883afa4fb73f4c6fdf8581bed3" resname="menu_core.menu.about">
+        <source>menu_core.menu.about</source>
+        <target state="new">About</target>
+        <jms:reference-file line="31">CoreBundle/Menu/MenuBuilder.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="31bee4507e68f2d707a30d3b9c80e163ea9f3d50" resname="menu_core.menu.help">
+        <source>menu_core.menu.help</source>
+        <target state="new">Help</target>
+        <jms:reference-file line="33">CoreBundle/Menu/MenuBuilder.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="5029f749cf341bb825bd2e3517ab9442fd196b76" resname="menu_core.menu.home">
+        <source>menu_core.menu.home</source>
+        <target state="new">Home</target>
+        <jms:reference-file line="25">CoreBundle/Menu/MenuBuilder.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1855699e370f7e4633b0a2cb5dc5debc1a9a7c9d" resname="menu_core.menu.menu1">
+        <source>menu_core.menu.menu1</source>
+        <target state="new">Menu1</target>
+        <jms:reference-file line="27">CoreBundle/Menu/MenuBuilder.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="dfc5ac228e81acb9217b4056346f7071954504a7" resname="menu_core.menu.menu2">
+        <source>menu_core.menu.menu2</source>
+        <target state="new">Menu2</target>
+        <jms:reference-file line="29">CoreBundle/Menu/MenuBuilder.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="0c71c291e4bcbcde5a525f0cd35cf09b26c462a2" resname="menu_core.menu.nvision">
+        <source>menu_core.menu.nvision</source>
+        <target state="new"><![CDATA[<i class="icon"></i><strong>www.nvision.lu</strong>]]></target>
+        <jms:reference-file line="36">CoreBundle/Menu/MenuBuilder.php</jms:reference-file>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

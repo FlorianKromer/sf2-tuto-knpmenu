@@ -8,6 +8,7 @@
 	<services>
 		<service id="menu_core.menu_builder" class="Menu\CoreBundle\Menu\MenuBuilder">
 			<argument type="service" id="knp_menu.factory" />
+			<argument type="service" id="translator" />
 		</service>
 
 		<service id="menu_core.menu.primary" class="Knp\Menu\MenuItem"
