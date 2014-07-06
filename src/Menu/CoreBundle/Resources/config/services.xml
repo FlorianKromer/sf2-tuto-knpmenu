@@ -15,6 +15,15 @@
 			<argument type="service" id="request" />
 			<tag name="knp_menu.menu" alias="primary" />
 		</service>
+		
+		<service id="menu_core.menu.primary_renderer" class="Menu\CoreBundle\Menu\PrimaryRender">
+			<tag name="knp_menu.renderer" alias="primary" />
+			<argument type="service" id="twig" />
+            <argument>MenuCoreBundle:Menu:primary.html.twig</argument>
+            <argument type="service" id="knp_menu.matcher" />
+            <argument>%knp_menu.renderer.twig.options%</argument>
+            
+		</service>
 
 	</services>
 
