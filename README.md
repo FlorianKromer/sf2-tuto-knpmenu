@@ -2,11 +2,11 @@
 # Tutoriel de mise en place d'un menu pas-à-pas
 
 
-Tout nos sites utilisent des menus.
+Tous nos sites utilisent des menus.
 
 Il existe plusieurs façons de faire :
 
-1.   A la main. C'est rapide pour des menus simplistes, mais inmaintenable dès que le menu se complique, qu'il dépend d'un contexte. 
+1.  A la main. C'est rapide pour des menus simplistes, mais inmaintenable dès que le menu se complique, qu'il dépend d'un contexte. 
 2.  En utilisant un bundle dédié à cet usage : KnpMenuBundle (il en existe sans doute un paquet d'autres)
 
 Pourquoi lui ?
@@ -32,6 +32,11 @@ J'ai installé SF 2.5.0 avec la nouvelle répartition des répertoires.
 *   var : comntient toutes les données variables (logs, cache, bootstrap,…)
 
 Aussi certaines commandes sont à adapter.
+
+Quelques infos en plus : 
+
+*   What is the new Symfony 3 directory structure? : http://stackoverflow.com/questions/23993295/what-is-the-new-symfony-3-directory-structure
+*   Upgrading a Symfony application to 2.5 : https://gist.github.com/nicwortel/0c938aa77c5bd4fde064
 
 
 ## Étape 1 : Installation 
