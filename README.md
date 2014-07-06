@@ -1,170 +1,289 @@
-Symfony Standard Edition
-========================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
+# Tutoriel de mise en place d'un menu pas-à-pas
 
-This document contains information on how to download, install, and start
-using Symfony. For a more detailed explanation, see the [Installation][1]
-chapter of the Symfony Documentation.
 
-1) Installing the Standard Edition
-----------------------------------
+Tout nos sites utilisent des menus.
 
-When it comes to installing the Symfony Standard Edition, you have the
-following options.
+Il existe plusieurs façons de faire :
 
-### Use Composer (*recommended*)
+1.   A la main. C'est rapide pour des menus simplistes, mais inmaintenable dès que le menu se complique, qu'il dépend d'un contexte. 
+2.  En utilisant un bundle dédié à cet usage : KnpMenuBundle (il en existe sans doute un paquet d'autres)
 
-As Symfony uses [Composer][2] to manage its dependencies, the recommended way
-to create a new project is to use it.
+Pourquoi lui ?
 
-If you don't have Composer yet, download it following the instructions on
-http://getcomposer.org/ or just run the following command:
+*   Pourquoi pas ?
+*   Utilisé dans Sonata, donc déjà présent sur quasi toutes nos installations.
+*   Renommé et on a déjà travailler avec !
+*   Permet de générer tous les menus du site de façon unifiée.
+*   De nombreuses fonctionnalités 
+*   Personnalisable et adaptable au besoin
 
-    curl -s http://getcomposer.org/installer | php
+Voila ! Plus arbitraire que cela je n'ai pas !
 
-Then, use the `create-project` command to generate a new Symfony application:
+Voyons le détail en quelques étapes. Certains d'entre vous peuvent sans doute en sauter, 
+mais ça ne fait pas de mal une petite piqure de rappel de temps à autre.
 
-    php composer.phar create-project symfony/framework-standard-edition path/to/install
 
-Composer will install Symfony and all its dependencies under the
-`path/to/install` directory.
+Note avant de commencer :
 
-### Download an Archive File
+J'ai installé SF 2.5.0 avec la nouvelle répartition des répertoires.
 
-To quickly test Symfony, you can also download an [archive][3] of the Standard
-Edition and unpack it somewhere under your web server root directory.
+*   bin : contient les binaires ```console``` compris !
+*   var : comntient toutes les données variables (logs, cache, bootstrap,…)
 
-If you downloaded an archive "without vendors", you also need to install all
-the necessary dependencies. Download composer (see above) and run the
-following command:
+Aussi certaines commandes sont à adapter.
 
-    php composer.phar install
 
-2) Checking your System Configuration
--------------------------------------
+## Étape 1 : Installation 
 
-Before starting coding, make sure that your local system is properly
-configured for Symfony.
+    ➜  git clone https://github.com/jerome-fix/sf2-tuto-knpmenu.git
+    ➜  git checkout -f step1-initialisation
+    ➜  composer install -v
 
-Execute the `check.php` script from the command line:
+Pour l'instant rien à voir. C'est un SF2 en version 2.5 de base. On peut répondre par 
+défaut à toutes les questions de l'installation.
 
-    php app/check.php
+## Étape 2 : Ajout du bundle knpmenu
 
-The script returns a status code of `0` if all mandatory requirements are met,
-`1` otherwise.
+    ➜ git checkout -f step2-install-bundle
+    ➜ composer install -v
 
-Access the `config.php` script from a browser:
+On a simplement ajouter le bundle dans le [composer.json](https://github.com/jerome-fix/sf2-tuto-knpmenu/commit/c3c27e4feef57226e87499f206039428735cbfb4) et [appKernel.php](https://github.com/jerome-fix/sf2-tuto-knpmenu/commit/36fda1ed9ef7d4e68c290118ba36dd7c292dc307). 
+La procédure complète est dispo ici : https://github.com/KnpLabs/KnpMenuBundle/blob/master/Resources/doc/index.md#installation
 
-    http://localhost/path-to-project/web/config.php
+Note : On installe la version 2 ! La version 1 est appelée à disparaître bientôt.
 
-If you get any warnings or recommendations, fix them before moving on.
 
-3) Browsing the Demo Application
---------------------------------
+## Étape 3 : Création du menu au travers d'un service (à privilégier)
 
-Congratulations! You're now ready to use Symfony.
+    ➜ git checkout -f step3-create-menu-service
 
-From the `config.php` page, click the "Bypass configuration and go to the
-Welcome page" link to load up your first Symfony page.
+On rentre dans le vif du sujet.
 
-You can also use a web-based configurator by clicking on the "Configure your
-Symfony Application online" link of the `config.php` page.
+cf. la documentaton du bundle : https://github.com/KnpLabs/KnpMenuBundle/blob/master/Resources/doc/index.md#create-your-first-menu
 
-To see a real-live Symfony page in action, access the following page:
+### Création des services pour les menus
 
-    web/app_dev.php/demo/hello/Fabien
 
-4) Getting started with Symfony
--------------------------------
+    <service id="menu_core.menu_builder" class="Menu\CoreBundle\Menu\MenuBuilder">
+        <argument type="service" id="knp_menu.factory" />
+    </service>
 
-This distribution is meant to be the starting point for your Symfony
-applications, but it also contains some sample code that you can learn from
-and play with.
+    <service id="menu_core.menu.primary" class="Knp\Menu\MenuItem"
+        factory-service="menu_core.menu_builder" factory-method="createPrimaryMenu" scope="request">
+        <argument type="service" id="request" />
+        <tag name="knp_menu.menu" alias="primary" />
+    </service>
 
-A great way to start learning Symfony is via the [Quick Tour][4], which will
-take you through all the basic features of Symfony2.
+Le premier « menu_core.menu_builder » est le service qui nous servira tout du long pour manipuler le menu.
 
-Once you're feeling good, you can move onto reading the official
-[Symfony2 book][5].
+Le second est à répéter pour chaque menu indépendant que nous voudrions créer: primary, secondary, sidebar,…
 
-A default bundle, `AcmeDemoBundle`, shows you Symfony2 in action. After
-playing with it, you can remove it by following these steps:
+Les points importants sont :
 
-  * delete the `src/Acme` directory;
+*   factory-method : méthode à appeler
+*   tag knp_menu.menu
 
-  * remove the routing entry referencing AcmeDemoBundle in `app/config/routing_dev.yml`;
 
-  * remove the AcmeDemoBundle from the registered bundles in `app/AppKernel.php`;
+### Création du menu 
 
-  * remove the `web/bundles/acmedemo` directory;
+    public function createPrimaryMenu(Request $request)
+    {
+        $menu = $this->factory->createItem('root');
 
-  * empty the `security.yml` file or tweak the security configuration to fit
-    your needs.
+        $menu->addChild('Home', array('route' => 'menu_core_homepage'));
+        $menu->addChild('Menu1', array('route' => 'menu_core_menu1'));
+        $menu->addChild('Menu2', array('route' => 'menu_core_menu1'));
+        $menu->addChild('About', array('route' => 'menu_core_about'));
+        $menu->addChild('Help', array('route' => 'menu_core_help'));
 
-What's inside?
----------------
+        return $menu;
+    }
 
-The Symfony Standard Edition is configured with the following defaults:
 
-  * Twig is the only configured template engine;
+Rien de sorcier la dedans : un label, une route. Il est bien sûr possible de passer une url externe :
 
-  * Doctrine ORM/DBAL is configured;
+    $menu->addChild('nvision', array('uri' => 'http://www.nvision.lu'))->setAttribute('target', "_blank");
 
-  * Swiftmailer is configured;
 
-  * Annotations for everything are enabled.
+## Étape 4 : Menus en cascade
 
-It comes pre-configured with the following bundles:
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+    ➜ git checkout -f step4-add-submenu
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+On se retrouve donc avec le code suivant dans le Builder :
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+    public function createPrimaryMenu(Request $request)
+    {
+        $menu = $this->factory->createItem('root');
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
+        $menu->addChild('Home', array('route' => 'menu_core_homepage'));
+        $menu->addChild('Menu1', array('route' => 'menu_core_menu1'));
+        $menu->addChild('Menu2', array('route' => 'menu_core_menu1'));
+        $about = $menu->addChild('About', array('route' => 'menu_core_about'));
+        $about->addChild('Help', array('route' => 'menu_core_help'));
+        $about->addChild('Search', array('route' => 'menu_core_search'));
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
+        return $menu;
+    }
 
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
+Si l'on regarde le code généré on constate que tout y est !
 
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
+1. L'arborescence
+2. les classes qui vont bien : current +  current_ancestror
 
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
 
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
+    <ul>
+        <li class="current first"><a href="/app_dev.php/">Home</a></li>
+        <li><a href="/app_dev.php/menu1">Menu1</a></li>
+        <li><a href="/app_dev.php/menu1">Menu2</a></li>
+        <li class="current_ancestor last">
+            <a href="/app_dev.php/about">About</a>                
+            <ul class="menu_level_1">
+                <li class="first"><a href="/app_dev.php/about/help">Help</a></li>
+                <li class="current last"><a href="/app_dev.php/about/search">Search</a></li>
+            </ul>
+        </li>
+    </ul>
 
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
+### Étape 5 : Jouer avec les paramètres de configuration (View)
 
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
+    ➜ git checkout -f step5-customize+menu-1
 
-  * **AcmeDemoBundle** (in dev/test env) - A demo bundle with some example
-    code
+Il est facile d'adapter un certains nombres de paramètres au moment du rendu, notamment les 
+classes pour s'adapter aux besoins du design.
 
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
+Voir la doc pour le rendu des menus.
 
-Enjoy!
+Par exemple dans l'affichage :
 
-[1]:  http://symfony.com/doc/2.4/book/installation.html
-[2]:  http://getcomposer.org/
-[3]:  http://symfony.com/download
-[4]:  http://symfony.com/doc/2.4/quick_tour/the_big_picture.html
-[5]:  http://symfony.com/doc/2.4/index.html
-[6]:  http://symfony.com/doc/2.4/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.4/book/doctrine.html
-[8]:  http://symfony.com/doc/2.4/book/templating.html
-[9]:  http://symfony.com/doc/2.4/book/security.html
-[10]: http://symfony.com/doc/2.4/cookbook/email.html
-[11]: http://symfony.com/doc/2.4/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.4/cookbook/assetic/asset_management.html
-[13]: http://symfony.com/doc/2.4/bundles/SensioGeneratorBundle/index.html
+    {{ knp_menu_render('primary', {ancestorClass: 'ma-classe-a-moi'}) }}
+
+
+Si dessous la liste complète de la configuration utilisable (disponible dans la doc) :
+
+*   depth
+*   matchingDepth: The depth of the scan to determine whether an item is an ancestor of the current item. 
+*   currentAsLink (default: true) 
+*   currentClass (default: current) 
+*   ancestorClass (default: current_ancestor) 
+*   firstClass (default: first) 
+*   lastClass (default: last) 
+*   compressed (default: false) 
+*   allow_safe_labels (default: false) 
+*   clear_matcher (default true): whether to clear the internal cache of the matcher after rendering 
+*   leaf_class (default: null): class for leaf elements in your html tree 
+*   branch_class (default: null): class for branch elements in your html tree 
+
+
+
+### Étape 6 : Personnaliser le rendu
+
+    ➜ git checkout -f step6-change-renderer
+
+
+Plusieurs façons : 
+
+#### General :
+
+    # app/config/config.yml
+    knp_menu:
+        twig:  
+            template: knp_menu.html.twig #(modifier ici)
+            
+#### The easy way : indiquer un template au moment du rendu
+
+    {{ knp_menu_render('primary', {template: 'my_menu.html.twig'}) }}
+
+
+#### The other way : créer un rendu spécifique : « primary » ici.
+
+
+Création du service :
+
+On reprend presque celui de base (seul le template change ici !)
+
+    <service id="menu_core.menu.primary_renderer" class="Menu\CoreBundle\Menu\PrimaryRender">
+        <tag name="knp_menu.renderer" alias="primary" />
+        <argument type="service" id="twig" />
+        <argument>MenuCoreBundle:Menu:primary.html.twig</argument>
+        <argument type="service" id="knp_menu.matcher" />
+        <argument>%knp_menu.renderer.twig.options%</argument>
+    </service>
+
+Création de la classe de rendu (totalement personnalisable, même si ici rien n'est nécessaire)
+
+    <?php // src/Menu/CoreBundle/Menu/PrimaryRender.php
+    namespace Menu\CoreBundle\Menu;
+    
+    use Knp\Menu\Renderer\TwigRenderer;
+    
+    class PrimaryRender extends TwigRenderer
+    {}
+
+Au niveau du template
+
+    {{ knp_menu_render('primary', {…}, 'primary') }}
+
+
+Plus d'infos : https://github.com/KnpLabs/KnpMenu/blob/master/doc/02-Twig-Integration.markdown
+
+
+
+### Étape 7 : Personnalisation des items
+
+    ➜ git checkout -f step6-change-renderer
+
+#### Ajouter des attributs aux items de menu.
+
+    public function createPrimaryMenu(Request $request)
+    {
+        $menu = $this->factory->createItem('root');
+
+        […]
+
+        $about = $menu->addChild('About', array('route' => 'menu_core_about'))
+                        ->setAttribute('class', 'dropdown')
+                        ->setChildrenAttribute('class', 'dropdown-menu');       
+        […]
+
+        return $menu;
+    }
+
+### Étape 8 : Internationalisation
+
+Je préfère passer les labels et less traduire directement dans l améthode de création de menu plutôt que 
+de déléguer cela à la vue.
+Cela permet de gérer facilemennt la spécialisation (pluralisation, contextualisation,…) en cas de besoin.
+
+Pour cela on modifie la création des Items.
+
+    $about = $menu->addChild('menu_core.menu.about', array('route' => 'menu_core_about'))
+                ->setLabel($this->translator->trans('menu_core.menu.about', array(), 'menu' ));
+
+Après avoir installer jms/translation-bundle il ne reste qu'à extraire les chaines à traduire.
+
+    bin/console translation:extract --bundle=MenuCoreBundle   -v en
+    
+    
+
+Voilà. Quelques pistes pour mettre en place de manière simple les menus sous Symfony 2.
+Je vous invite bien sûr à ne pas vous contenter de ces quelques infos, mais de continuer la lecture des docs.
+
+# Documentation 
+
+*   https://github.com/KnpLabs/KnpMenu/tree/master/doc
+*   https://github.com/KnpLabs/KnpMenuBundle/blob/master/Resources/doc/index.md
+
+
+## Cookbook :
+
+*   Utiliser les événements pour étendre dynamiquement un menu :  https://github.com/KnpLabs/KnpMenuBundle/blob/master/Resources/doc/events.md
+*   Custom provider : https://github.com/KnpLabs/KnpMenuBundle/blob/master/Resources/doc/custom_provider.md
+*   Custom renderer : https://github.com/KnpLabs/KnpMenuBundle/blob/master/Resources/doc/custom_renderer.md
+*   Custom KnpMenuBundle navigation bar twig template to support Font Awesome icons & Twitter bootstrap layout : https://gist.github.com/nielsmouthaan/3765766
+*   La liste complète : https://github.com/KnpLabs/KnpMenuBundle/tree/master/Resources/doc
+
+## Divers : 
+
+*   Symfony2 advanced menus (User roles) : http://www.trisoft.ro/blog/6-symfony2-advanced-menus
