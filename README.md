@@ -6,7 +6,7 @@ Tous nos sites utilisent des menus.
 
 Il existe plusieurs façons de faire :
 
-1.  A la main. C'est rapide pour des menus simplistes, mais inmaintenable dès que le menu se complique, qu'il dépend d'un contexte. 
+1.  A la main. C'est rapide pour des menus simplistes, mais ce n'est plus maintenable dès que le menu se complique, qu'il dépend d'un contexte. 
 2.  En utilisant un bundle dédié à cet usage : KnpMenuBundle (il en existe sans doute un paquet d'autres)
 
 Pourquoi lui ?
@@ -29,7 +29,7 @@ Note avant de commencer :
 J'ai installé SF 2.5.0 avec la nouvelle répartition des répertoires.
 
 *   bin : contient les binaires ```console``` compris !
-*   var : comntient toutes les données variables (logs, cache, bootstrap,…)
+*   var : contient toutes les données variables (logs, cache, bootstrap,…)
 
 Aussi certaines commandes sont à adapter.
 
@@ -262,7 +262,7 @@ Plus d'infos : https://github.com/KnpLabs/KnpMenu/blob/master/doc/02-Twig-Integr
     ➜ composer install -v
     
 
-Je préfère passer les labels et less traduire directement dans l améthode de création de menu plutôt que 
+Je préfère passer les labels et les traduire directement dans la méthode de création de menu plutôt que 
 de déléguer cela à la vue.
 Cela permet de gérer facilemennt la spécialisation (pluralisation, contextualisation,…) en cas de besoin.
 
