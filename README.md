@@ -237,7 +237,7 @@ Plus d'infos : https://github.com/KnpLabs/KnpMenu/blob/master/doc/02-Twig-Integr
 
 ### Étape 7 : Personnalisation des items
 
-    ➜ git checkout -f step6-change-renderer
+    ➜ git checkout -f step7-personnalisation
 
 #### Ajouter des attributs aux items de menu.
 
@@ -256,6 +256,11 @@ Plus d'infos : https://github.com/KnpLabs/KnpMenu/blob/master/doc/02-Twig-Integr
     }
 
 ### Étape 8 : Internationalisation
+
+
+    ➜ git checkout -f step8-internationalisation
+    ➜ composer install -v
+    
 
 Je préfère passer les labels et less traduire directement dans l améthode de création de menu plutôt que 
 de déléguer cela à la vue.
