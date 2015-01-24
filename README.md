@@ -264,14 +264,35 @@ Plus d'infos : https://github.com/KnpLabs/KnpMenu/blob/master/doc/02-Twig-Integr
 
 Je préfère passer les labels et les traduire directement dans la méthode de création de menu plutôt que 
 de déléguer cela à la vue.
-Cela permet de gérer facilemennt la spécialisation (pluralisation, contextualisation,…) en cas de besoin.
+Cela permet de gérer facilement la spécialisation (pluralisation, contextualisation,…) en cas de besoin.
 
-Pour cela on modifie la création des Items.
+On ajoute le traducteur à notre classe en tant que service
+
+    <service id="menu_core.menu_builder" class="Menu\CoreBundle\Menu\MenuBuilder">
+        <argument type="service" id="knp_menu.factory" />
+        <argument type="service" id="translator" />
+    </service>
+
+
+Puis dans la classe Menu\CoreBundle\Menu\MenuBuilder.php
+
+    /**
+     * @param FactoryInterface $factory
+     */
+    public function __construct(FactoryInterface $factory, $translator)
+    {
+        $this->factory = $factory;
+        $this->translator = $translator;
+    }
+    
+	
+    
+Ensuite on modifie la création des Items.
 
     $about = $menu->addChild('menu_core.menu.about', array('route' => 'menu_core_about'))
                 ->setLabel($this->translator->trans('menu_core.menu.about', array(), 'menu' ));
 
-Après avoir installer jms/translation-bundle il ne reste qu'à extraire les chaines à traduire.
+Après avoir installé jms/translation-bundle il ne reste qu'à extraire les chaines à traduire.
 
     bin/console translation:extract --bundle=MenuCoreBundle   -v en
     
